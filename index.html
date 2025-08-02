@@ -132,19 +132,32 @@
   </div>
 
   <script>
-    function submitReview() {
-      fetch('/api/review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: document.getElementById('name').value,
-          review: document.getElementById('review').value
-        })
-      }).then(res => res.json())
-        .then(data => {
-          document.getElementById('status').innerText = data.message || "Submitted!";
-        });
-    }
+   function submitReview() {
+  fetch('http://52.21.137.25:3000/api/review', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: document.getElementById('name').value,
+      review: document.getElementById('review').value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('status').innerText = "✅ Thank you! Your review was submitted.";
+    document.getElementById('status').style.color = "green";
+    document.getElementById('review').value = "";
+    document.getElementById('name').value = "";
+
+    // Optional: Hide message after 3 seconds
+    setTimeout(() => {
+      document.getElementById('status').innerText = "";
+    }, 3000);
+  })
+  .catch(err => {
+    document.getElementById('status').innerText = "❌ Submission failed.";
+    document.getElementById('status').style.color = "red";
+  });
+}
   </script>
 
 </body>
