@@ -1,9 +1,15 @@
 FROM node:18-alpine
 
 WORKDIR /app
+
+# Copy ONLY the backend package.json and lock file
 COPY backend/package*.json ./
+
+# Install dependencies
 RUN npm install
 
+# Now copy the rest of the backend source code
 COPY backend/ .
+
 EXPOSE 3000
 CMD ["node", "server.js"]
