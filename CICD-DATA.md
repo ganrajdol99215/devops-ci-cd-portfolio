@@ -34,7 +34,7 @@ Push to GitHub
 | Monitoring   | Prometheus + Grafana             |
 | Code Quality | SonarQube                        |
 | Infra Watch  | Zabbix                           |
-``
+
 
 ## 🌍 Access Points : -
 
