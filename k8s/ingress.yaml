@@ -18,6 +18,7 @@ spec:
                 name: frontend
                 port:
                   number: 80
+
           - path: /api()(.*)
             pathType: ImplementationSpecific
             backend:
@@ -25,6 +26,7 @@ spec:
                 name: backend-service
                 port:
                   number: 3000
+
           - path: /grafana()(.*)
             pathType: ImplementationSpecific
             backend:
@@ -32,6 +34,7 @@ spec:
                 name: grafana
                 port:
                   number: 3000
+
           - path: /prometheus()(.*)
             pathType: ImplementationSpecific
             backend:
@@ -39,6 +42,7 @@ spec:
                 name: prometheus
                 port:
                   number: 9090
+
           - path: /sonarqube()(.*)
             pathType: ImplementationSpecific
             backend:
@@ -46,6 +50,7 @@ spec:
                 name: sonarqube
                 port:
                   number: 9000
+
           - path: /zabbix()(.*)
             pathType: ImplementationSpecific
             backend:
