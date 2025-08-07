@@ -22,7 +22,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: backend
+                name: backend-service     # ✅ corrected
                 port:
                   number: 3000
           - path: /prometheus
