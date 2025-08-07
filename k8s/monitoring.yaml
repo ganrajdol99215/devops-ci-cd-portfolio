@@ -1,9 +1,17 @@
+
+# Namespace Definition
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: portfolio
+
 ---
 # =================== PROMETHEUS ===================
 apiVersion: v1
 kind: Service
 metadata:
   name: prometheus
+  namespace: portfolio
   labels:
     app: prometheus
 spec:
@@ -16,6 +24,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
+  namespace: portfolio
 spec:
   replicas: 1
   selector:
@@ -43,6 +52,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: prometheus-config
+  namespace: portfolio
 data:
   prometheus.yml: |
     global:
@@ -57,6 +67,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grafana
+  namespace: portfolio
 spec:
   selector:
     app: grafana
@@ -68,6 +79,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
+  namespace: portfolio
 spec:
   replicas: 1
   selector:
@@ -89,6 +101,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sonarqube
+  namespace: portfolio
 spec:
   selector:
     app: sonarqube
@@ -99,6 +112,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sonarqube
+  namespace: portfolio
 spec:
   replicas: 1
   selector:
@@ -123,6 +137,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: zabbix-server
+  namespace: portfolio
 spec:
   selector:
     app: zabbix-server
@@ -134,6 +149,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zabbix-server
+  namespace: portfolio
 spec:
   replicas: 1
   selector:
