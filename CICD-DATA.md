@@ -23,6 +23,7 @@ User Access:
     - /sonarqube
     - /zabbix
 ```
+---
 ## 🧩 Components
 
 | Layer        | Tool                            |
