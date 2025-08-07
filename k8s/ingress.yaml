@@ -18,38 +18,36 @@ spec:
                 name: frontend
                 port:
                   number: 80
-
           - path: /api()(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: backend-service   # ✅ Must match backend svc name
+                name: backend-service
                 port:
                   number: 3000
-
-          - path: /prometheus
-            pathType: Prefix
-            backend:
-              service:
-                name: prometheus
-                port:
-                  number: 9090
-          - path: /grafana
-            pathType: Prefix
+          - path: /grafana()(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: grafana
                 port:
                   number: 3000
-          - path: /sonarqube
-            pathType: Prefix
+          - path: /prometheus()(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090
+          - path: /sonarqube()(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: sonarqube
                 port:
                   number: 9000
-          - path: /zabbix
-            pathType: Prefix
+          - path: /zabbix()(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: zabbix-server
