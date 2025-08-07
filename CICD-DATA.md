@@ -22,10 +22,9 @@ Push to GitHub
     - /grafana
     - /sonarqube
     - /zabbix
-```
+``
+### Components :
 
-## Components
-```
 | Layer        | Tool                            |
 |--------------|----------------------------------|
 | CI/CD        | Jenkins                          |
@@ -35,9 +34,9 @@ Push to GitHub
 | Monitoring   | Prometheus + Grafana             |
 | Code Quality | SonarQube                        |
 | Infra Watch  | Zabbix                           |
-```
+``
 
-## 🌍 Access Points
+## 🌍 Access Points : -
 
 ```
 | Service     | URL                                                  | Login Info       |
