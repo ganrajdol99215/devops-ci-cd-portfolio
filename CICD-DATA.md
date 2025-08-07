@@ -14,7 +14,40 @@ Push to GitHub
              - Deploy to K3s cluster
                 └─> Ingress routes to services
 ```
+User Access:
+- Frontend: https://cicd.devopsbyganraj.cloud
+- Backend:  https://cicd.devopsbyganraj.cloud/api
+- Monitoring Tools:
+    - /prometheus
+    - /grafana
+    - /sonarqube
+    - /zabbix
+```
+## 🧩 Components
+
+| Layer        | Tool                            |
+|--------------|----------------------------------|
+| CI/CD        | Jenkins                          |
+| Container    | Docker, Docker Hub               |
+| Cluster      | K3s (lightweight Kubernetes)     |
+| Source       | GitHub                           |
+| Monitoring   | Prometheus + Grafana             |
+| Code Quality | SonarQube                        |
+| Infra Watch  | Zabbix                           |
+
 ---
+## 🌍 Access Points
+
+| Service     | URL                                                  | Login Info       |
+|-------------|------------------------------------------------------|------------------|
+| Frontend    | https://cicd.devopsbyganraj.cloud/                  | -                |
+| Backend API | https://cicd.devopsbyganraj.cloud/api               | -                |
+| Prometheus  | https://cicd.devopsbyganraj.cloud/prometheus        | No login         |
+| Grafana     | https://cicd.devopsbyganraj.cloud/grafana           | `admin` / `admin`|
+| SonarQube   | https://cicd.devopsbyganraj.cloud/sonarqube         | `admin` / `admin`|
+| Zabbix      | https://cicd.devopsbyganraj.cloud/zabbix            | `Admin` / `zabbix`|
+---
+
 ## 🌐 Domain Setup: `cicd.devopsbyganraj.cloud`
 
 ### ✅ Steps to point your domain (via Cloudflare or DNS provider)
@@ -232,8 +265,13 @@ Jenkins > Manage Jenkins > Credentials > Add Credentials
 - Username: `<dockerhub-username>`  
 - Password: `<dockerhub-password>`
 
-## ⚙️ 8. Jenkinsfile
-(Truncated here to save space – included in final file)
+Then:
+- Install required plugins (Docker, Kubernetes CLI, SonarQube Scanner)
+- Add DockerHub credentials
+- Configure SonarQube under `Global Tool Config`
+- Add GitHub webhook URL: `http://<ec2-ip>:8080/github-webhook/`
+
+---
 
 ## 🔁 9. GitHub Webhook
 - GitHub > Repo Settings > Webhooks > Add Webhook  
@@ -242,12 +280,15 @@ Jenkins > Manage Jenkins > Credentials > Add Credentials
 - Trigger: `Just the push event`
 
 ## 📊 10. Monitoring: Prometheus + Grafana
-```bash
-curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm install prom prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace
-kubectl port-forward svc/prom-grafana 3000:80 -n monitoring
-```
+
+| Service     | URL                                                  | Login Info       |
+|-------------|------------------------------------------------------|------------------|
+| Frontend    | https://cicd.devopsbyganraj.cloud/                  | -                |
+| Backend API | https://cicd.devopsbyganraj.cloud/api               | -                |
+| Prometheus  | https://cicd.devopsbyganraj.cloud/prometheus        | No login         |
+| Grafana     | https://cicd.devopsbyganraj.cloud/grafana           | `admin` / `admin`|
+| SonarQube   | https://cicd.devopsbyganraj.cloud/sonarqube         | `admin` / `admin`|
+| Zabbix      | https://cicd.devopsbyganraj.cloud/zabbix            | `Admin` / `zabbix`|
 
 ## ✅ Final Pipeline Flow
 
