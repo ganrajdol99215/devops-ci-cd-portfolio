@@ -56,13 +56,14 @@ Push to GitHub
 
 1. Go to DNS panel of `devopsbyganraj.cloud`
 2. Add A record:
-``
+```
 | Type | Name | Value (Your EC2 IP) | Proxy |
 |------|------|---------------------|--------|
 | A    | cicd | `13.234.123.45`     | DNS Only (not proxied) |
 ```
 > ✅ Required for HTTPS + Ingress to work
 ---
+
 ### Ingress Rule YAML Example:
 ```yaml
 spec:
