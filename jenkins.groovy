@@ -6,6 +6,7 @@ pipeline {
     IMAGE_TAG = "v${BUILD_NUMBER}"
     BACKEND_IMAGE = "${DOCKER_HUB_USER}/portfolio-backend:${IMAGE_TAG}"
     FRONTEND_IMAGE = "${DOCKER_HUB_USER}/portfolio-frontend:${IMAGE_TAG}"
+    SONARQUBE_ENV = 'MySonarQube' // Name configured in Jenkins Global Tool Config
   }
 
   stages {
@@ -13,6 +14,26 @@ pipeline {
     stage('Checkout Code') {
       steps {
         git branch: 'main', url: 'https://github.com/ganrajdol99215/devops-ci-cd-portfolio.git'
+      }
+    }
+
+    stage('SonarQube Scan - Frontend') {
+      steps {
+        dir('frontend') {
+          withSonarQubeEnv("${SONARQUBE_ENV}") {
+            sh 'sonar-scanner'
+          }
+        }
+      }
+    }
+
+    stage('SonarQube Scan - Backend') {
+      steps {
+        dir('backend') {
+          withSonarQubeEnv("${SONARQUBE_ENV}") {
+            sh 'sonar-scanner'
+          }
+        }
       }
     }
 
