@@ -1,14 +1,15 @@
-# Use NGINX as the base image
+# Stage 1: Build React app
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Stage 2: Serve with NGINX
 FROM nginx:alpine
-
-# Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
-
-# Copy all frontend static files (HTML, CSS, JS, PDF, etc.)
-COPY . /usr/share/nginx/html/
-
-# Expose NGINX default port
+COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
-
-# Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
+
