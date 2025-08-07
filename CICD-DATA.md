@@ -15,6 +15,27 @@ Push to GitHub
                 └─> Ingress routes to services
 ```
 ---
+## 🌐 Domain Setup: `cicd.devopsbyganraj.cloud`
+
+### ✅ Steps to point your domain (via Cloudflare or DNS provider)
+
+1. Go to DNS panel of `devopsbyganraj.cloud`
+2. Add A record:
+
+| Type | Name | Value (Your EC2 IP) | Proxy |
+|------|------|---------------------|--------|
+| A    | cicd | `13.234.123.45`     | DNS Only (not proxied) |
+
+> ✅ Required for HTTPS + Ingress to work
+
+### Ingress Rule YAML Example:
+```yaml
+spec:
+  rules:
+    - host: cicd.devopsbyganraj.cloud
+```
+
+---
 ## 🌐 1. Launch EC2 Instance (t3.small, Ubuntu 22.04)
 ```bash
 ssh -i your-key.pem ubuntu@<EC2_PUBLIC_IP>
