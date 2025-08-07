@@ -91,24 +91,6 @@ docker --version
 ```
 
 ## 🐋 3. Build & Push Docker Images to Docker Hub
-
-### Backend `Dockerfile.backend`
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .
-RUN npm install
-EXPOSE 3000
-CMD ["node", "server.js"]
-```
-
-### Frontend `Dockerfile`
-```dockerfile
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
-EXPOSE 80
-```
-
 ### Build & Push Commands
 ```bash
 cd backend
@@ -141,110 +123,18 @@ kubectl create namespace portfolio
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.1/deploy/static/provider/cloud/deploy.yaml
 ```
-
-### `frontend-deployment.yaml`
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: frontend
-  namespace: portfolio
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: frontend
-  template:
-    metadata:
-      labels:
-        app: frontend
-    spec:
-      containers:
-        - name: frontend
-          image: ganraj99215/portfolio-frontend:v1
-          ports:
-            - containerPort: 80
-```
-
-### `frontend-service.yaml`
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-service
-  namespace: portfolio
-spec:
-  selector:
-    app: frontend
-  ports:
-    - port: 80
-      targetPort: 80
-  type: ClusterIP
-```
-
-### `ingress.yaml`
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: cicd-ingress
-  namespace: portfolio
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: cicd.devopsbyganraj.cloud
-      http:
-        paths:
-          - path: /?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend
-                port:
-                  number: 80
-          - path: /api/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: backend
-                port:
-                  number: 3000
-          - path: /prometheus/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: prometheus
-                port:
-                  number: 9090
-          - path: /grafana/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: grafana
-                port:
-                  number: 3000
-          - path: /sonarqube/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: sonarqube
-                port:
-                  number: 9000
-          - path: /zabbix/?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: zabbix-server
-                port:
-                  number: 80
-```
-
 ### Apply All Manifests
 ```bash
-kubectl apply -f k8s-manifests/ -n portfolio
+kubectl create namespace portfolio
+kubectl apply -n portfolio -f k8s/
 ```
+
+Check pod status:
+```bash
+kubectl get pods -n portfolio
+```
+
+---
 
 ## 🧪 6. Install Jenkins
 ```bash
