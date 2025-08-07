@@ -76,7 +76,9 @@ spec:
 ```bash
 ssh -i your-key.pem ubuntu@<EC2_PUBLIC_IP>
 ```
-
+- Ubuntu 22.04
+- Open ports: 22, 80, 443, 8080, 3000, 9090, 9000, 10051
+---
 ## 🐳 2. Install Docker
 ```bash
 sudo apt update -y
