@@ -14,7 +14,7 @@ Push to GitHub
              - Deploy to K3s cluster
                 └─> Ingress routes to services
 ```
-User Access:
+## User Access:
 - Frontend: https://cicd.devopsbyganraj.cloud
 - Backend:  https://cicd.devopsbyganraj.cloud/api
 - Monitoring Tools:
@@ -23,8 +23,10 @@ User Access:
     - /sonarqube
     - /zabbix
 ```
+
 ---
-## 🧩 Components
+
+## Components
 
 | Layer        | Tool                            |
 |--------------|----------------------------------|
@@ -36,7 +38,7 @@ User Access:
 | Code Quality | SonarQube                        |
 | Infra Watch  | Zabbix                           |
 
----
+
 ## 🌍 Access Points
 
 | Service     | URL                                                  | Login Info       |
@@ -47,7 +49,7 @@ User Access:
 | Grafana     | https://cicd.devopsbyganraj.cloud/grafana           | `admin` / `admin`|
 | SonarQube   | https://cicd.devopsbyganraj.cloud/sonarqube         | `admin` / `admin`|
 | Zabbix      | https://cicd.devopsbyganraj.cloud/zabbix            | `Admin` / `zabbix`|
----
+
 
 ## 🌐 Domain Setup: `cicd.devopsbyganraj.cloud`
 
