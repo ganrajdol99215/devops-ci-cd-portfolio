@@ -1,7 +1,20 @@
 # 🚀 DevOps CI/CD Portfolio Project (Jenkins + Docker + K3s + GitHub + Monitoring)
 
-> A complete CI/CD pipeline using Jenkins, Docker, Kubernetes (K3s), GitHub, and Prometheus/Grafana for monitoring. Deploys a Node.js backend + static frontend app using Ingress on a domain like `https://cicd.devopsbyganraj.cloud`.
+> A complete CI/CD setup with Jenkins, Docker, Kubernetes (K3s), GitHub, and monitoring tools — Prometheus, Grafana, SonarQube, Zabbix — deployed on a domain like `https://cicd.devopsbyganraj.cloud`.
+---
 
+## ✅ CI/CD & Monitoring Workflow
+
+```text
+Push to GitHub
+  └─> Jenkins Webhook Triggers
+       └─> Jenkins stages:
+             - SonarQube scan (frontend + backend)
+             - Build + Push Docker Images
+             - Deploy to K3s cluster
+                └─> Ingress routes to services
+```
+---
 ## 🌐 1. Launch EC2 Instance (t3.small, Ubuntu 22.04)
 ```bash
 ssh -i your-key.pem ubuntu@<EC2_PUBLIC_IP>
