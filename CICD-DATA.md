@@ -24,10 +24,8 @@ Push to GitHub
     - /zabbix
 ```
 
----
-
 ## Components
-
+```
 | Layer        | Tool                            |
 |--------------|----------------------------------|
 | CI/CD        | Jenkins                          |
@@ -37,10 +35,11 @@ Push to GitHub
 | Monitoring   | Prometheus + Grafana             |
 | Code Quality | SonarQube                        |
 | Infra Watch  | Zabbix                           |
-
+```
 
 ## 🌍 Access Points
 
+```
 | Service     | URL                                                  | Login Info       |
 |-------------|------------------------------------------------------|------------------|
 | Frontend    | https://cicd.devopsbyganraj.cloud/                  | -                |
@@ -49,7 +48,8 @@ Push to GitHub
 | Grafana     | https://cicd.devopsbyganraj.cloud/grafana           | `admin` / `admin`|
 | SonarQube   | https://cicd.devopsbyganraj.cloud/sonarqube         | `admin` / `admin`|
 | Zabbix      | https://cicd.devopsbyganraj.cloud/zabbix            | `Admin` / `zabbix`|
-
+```
+---
 
 ## 🌐 Domain Setup: `cicd.devopsbyganraj.cloud`
 
@@ -57,13 +57,13 @@ Push to GitHub
 
 1. Go to DNS panel of `devopsbyganraj.cloud`
 2. Add A record:
-
+``
 | Type | Name | Value (Your EC2 IP) | Proxy |
 |------|------|---------------------|--------|
 | A    | cicd | `13.234.123.45`     | DNS Only (not proxied) |
-
+```
 > ✅ Required for HTTPS + Ingress to work
-
+---
 ### Ingress Rule YAML Example:
 ```yaml
 spec:
