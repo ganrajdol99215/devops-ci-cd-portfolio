@@ -8,6 +8,6 @@ spec:
     app: backend
   ports:
     - name: http
-      port: 3000        # Port exposed inside cluster
-      targetPort: 3000  # Port inside the container
+      port: 3000
+      targetPort: 3000
   type: ClusterIP
