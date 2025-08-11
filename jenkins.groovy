@@ -6,7 +6,7 @@ pipeline {
     IMAGE_TAG = "v${BUILD_NUMBER}"
     BACKEND_IMAGE = "${DOCKER_HUB_USER}/portfolio-backend:${IMAGE_TAG}"
     FRONTEND_IMAGE = "${DOCKER_HUB_USER}/portfolio-frontend:${IMAGE_TAG}"
-    SONARQUBE_ENV = 'MySonarQube' // Name configured in Jenkins Global Tool Config
+    SONARQUBE_ENV = 'MySonarQube' // Jenkins global SonarQube config name
   }
 
   stages {
@@ -65,12 +65,27 @@ pipeline {
       }
     }
 
-    stage('Deploy to Kubernetes') {
+    stage('Apply Kubernetes Manifests') {
+      steps {
+        sh 'kubectl apply -f k8s/ -n portfolio'
+      }
+    }
+
+    stage('Update Images in Deployments') {
       steps {
         sh """
           kubectl set image deployment/frontend frontend=$FRONTEND_IMAGE -n portfolio
           kubectl set image deployment/backend backend=$BACKEND_IMAGE -n portfolio
         """
+      }
+    }
+
+    stage('Patch Ingress Controller to NodePort') {
+      steps {
+        sh '''
+          kubectl patch svc ingress-nginx-controller -n ingress-nginx \
+            -p '{"spec": {"type": "NodePort"}}'
+        '''
       }
     }
 
