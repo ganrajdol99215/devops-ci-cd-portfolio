@@ -196,6 +196,10 @@ sudo apt install -y jenkins
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 ```
+### Accessing Jenkins Portal 
+```
+http://<EC2's_Public-Ip>:8080/login?from=%2F
+```
 
 ### Get Initial Admin Password
 ```bash
