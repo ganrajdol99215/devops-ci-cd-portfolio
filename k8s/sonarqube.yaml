@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarqube
+  namespace: portfolio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarqube
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+        - name: sonarqube
+          image: sonarqube:lts
+          ports:
+            - containerPort: 9000
+          env:
+            - name: SONAR_WEB_CONTEXT
+              value: "/sonar"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube
+  namespace: portfolio
+spec:
+  selector:
+    app: sonarqube
+  ports:
+    - port: 9000
+      targetPort: 9000
