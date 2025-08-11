@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: cicd-ingress
   namespace: portfolio
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
 spec:
+  ingressClassName: nginx
   rules:
     - host: cicd.devopsbyganraj.cloud
       http:
