@@ -111,6 +111,10 @@ sudo chown $USER:$USER ~/.kube/config
 export KUBECONFIG=~/.kube/config
 kubectl get nodes
 ```
+Check status:
+```bash
+sudo kubectl get nodes
+```
 
 ## 📦 5. Kubernetes YAML Files
 
@@ -123,15 +127,37 @@ kubectl create namespace portfolio
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.1/deploy/static/provider/cloud/deploy.yaml
 ```
+### Wait until the controller pod is running:
+```bash
+kubectl get pods -n ingress-nginx
+```
+### Change Ingress Controller to NodePort (Permanent Fix for HTTP 404)
+```bash
+kubectl patch svc ingress-nginx-controller -n ingress-nginx \
+  -p '{"spec": {"type": "NodePort"}}'
+```
+### Check the assigned NodePort (80 and 443):
+```bash
+kubectl get svc -n ingress-nginx
+```
+### Example output:
+```css
+ingress-nginx-controller   NodePort    10.43.x.x   <none>   80:31617/TCP,443:30975/TCP   ...
+```
+Here 31617 is the NodePort for HTTP traffic.
+
 ### Apply All Manifests
 ```bash
-kubectl create namespace portfolio
 kubectl apply -n portfolio -f k8s/
 ```
 
 Check pod status:
 ```bash
 kubectl get pods -n portfolio
+```
+### Apply the Ingress Resource
+```bash
+kubectl apply -n portfolio -f k8s/ingress.yaml
 ```
 ---
 ## 📌 DNS Configuration for CI/CD Ingress
@@ -154,7 +180,10 @@ Before accessing your application via **cicd.devopsbyganraj.cloud**, you must co
 Once added, you can test with:
 ```bash
 curl -I http://<YOUR_EC2_PUBLIC_IP>/ -H "Host: cicd.devopsbyganraj.cloud"
+curl -I http://<EC2-IP>:<NODE_PORT>/api -H "Host: cicd.devopsbyganraj.cloud"
 ```
+You should see:
+HTTP/1.1 200 OK
 ---
 
 ## 🧪 6. Install Jenkins
