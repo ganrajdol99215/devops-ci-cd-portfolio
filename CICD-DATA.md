@@ -182,7 +182,7 @@ Once added, you can test with:
 curl -I http://<YOUR_EC2_PUBLIC_IP>/ -H "Host: cicd.devopsbyganraj.cloud"
 curl -I http://<EC2-IP>:<NODE_PORT>/api -H "Host: cicd.devopsbyganraj.cloud"
 ```
-You should see:
+### You should see:
 HTTP/1.1 200 OK
 ---
 
