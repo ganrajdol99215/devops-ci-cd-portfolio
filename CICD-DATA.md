@@ -133,7 +133,28 @@ Check pod status:
 ```bash
 kubectl get pods -n portfolio
 ```
+---
+## 📌 DNS Configuration for CI/CD Ingress
 
+Before accessing your application via **cicd.devopsbyganraj.cloud**, you must configure DNS in Cloudflare.
+
+### Steps:
+1. **Log in** to your [Cloudflare Dashboard](https://dash.cloudflare.com/).
+2. Select the domain: **devopsbyganraj.cloud**.
+3. Navigate to **DNS → Records → Add Record**.
+4. Add a new **A Record**:
+   - **Type:** `A`
+   - **Name:** `cicd`
+   - **IPv4 Address:** `<YOUR_EC2_PUBLIC_IP>`  
+     *(Run `curl ifconfig.me` on your EC2 instance to get this.)*
+   - **Proxy status:** ☁️ **DNS Only** *(disable proxy for Kubernetes ingress to work properly)*
+   - **TTL:** Auto
+5. Save the record.
+
+Once added, you can test with:
+```bash
+curl -I http://<YOUR_EC2_PUBLIC_IP>/ -H "Host: cicd.devopsbyganraj.cloud"
+```
 ---
 
 ## 🧪 6. Install Jenkins
