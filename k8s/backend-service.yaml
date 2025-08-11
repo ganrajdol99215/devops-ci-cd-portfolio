@@ -7,6 +7,8 @@ spec:
   selector:
     app: backend
   ports:
-    - port: 3000   # Changed from 80
-      targetPort: 3000
+    - name: http
+      port: 3000        # Port that Ingress will call
+      targetPort: 3000  # Port inside the container
+  type: ClusterIP
 
