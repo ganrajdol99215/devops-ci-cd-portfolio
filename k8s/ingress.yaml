@@ -12,42 +12,42 @@ spec:
       http:
         paths:
           - path: /()(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: frontend
                 port:
                   number: 80
           - path: /api(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: backend
                 port:
                   number: 3000
           - path: /prometheus(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: prometheus
                 port:
                   number: 9090
           - path: /grafana(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: grafana
                 port:
                   number: 3000
           - path: /sonarqube(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: sonarqube
                 port:
                   number: 9000
           - path: /zabbix(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: zabbix-server
