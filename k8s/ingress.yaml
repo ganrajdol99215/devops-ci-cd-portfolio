@@ -11,51 +11,42 @@ spec:
     - host: cicd.devopsbyganraj.cloud
       http:
         paths:
-          - path: /(.*)
+          - path: "/()(.*)"
             pathType: Prefix
             backend:
               service:
                 name: frontend
                 port:
                   number: 80
-          - path: /api(/|$)(.*)
-              pathType: Prefix
-             backend:
-                  service:
-                    name: backend
-                    port:
-                    number: 3000
-
-
-          # Prometheus
-          - path: /prometheus/?(.*)
+          - path: "/api(/|$)(.*)"
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 3000
+          - path: "/prometheus(/|$)(.*)"
             pathType: Prefix
             backend:
               service:
                 name: prometheus
                 port:
                   number: 9090
-
-          # Grafana
-          - path: /grafana/?(.*)
+          - path: "/grafana(/|$)(.*)"
             pathType: Prefix
             backend:
               service:
                 name: grafana
                 port:
                   number: 3000
-
-          # SonarQube
-          - path: /sonarqube/?(.*)
+          - path: "/sonarqube(/|$)(.*)"
             pathType: Prefix
             backend:
               service:
                 name: sonarqube
                 port:
                   number: 9000
-
-          # Zabbix
-          - path: /zabbix/?(.*)
+          - path: "/zabbix(/|$)(.*)"
             pathType: Prefix
             backend:
               service:
