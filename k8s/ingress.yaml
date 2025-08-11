@@ -4,55 +4,50 @@ metadata:
   name: cicd-ingress
   namespace: portfolio
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
     - host: cicd.devopsbyganraj.cloud
       http:
         paths:
-          - path: /()(.*)
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: frontend
                 port:
                   number: 80
-
-          - path: /api()(.*)
-            pathType: ImplementationSpecific
+          - path: /api
+            pathType: Prefix
             backend:
               service:
-                name: backend-service
+                name: backend
                 port:
-                  number: 3000
-
-          - path: /grafana()(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: grafana
-                port:
-                  number: 3000
-
-          - path: /prometheus()(.*)
-            pathType: ImplementationSpecific
+                  number: 3000  # must match backend service port
+          - path: /prometheus
+            pathType: Prefix
             backend:
               service:
                 name: prometheus
                 port:
                   number: 9090
-
-          - path: /sonarqube()(.*)
-            pathType: ImplementationSpecific
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+          - path: /sonarqube
+            pathType: Prefix
             backend:
               service:
                 name: sonarqube
                 port:
                   number: 9000
-
-          - path: /zabbix()(.*)
-            pathType: ImplementationSpecific
+          - path: /zabbix
+            pathType: Prefix
             backend:
               service:
                 name: zabbix-server
