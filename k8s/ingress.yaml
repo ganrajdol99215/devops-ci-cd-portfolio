@@ -1,7 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
+  name: cicd-ingress
+  namespace: portfolio
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
+  ingressClassName: nginx
   rules:
     - host: cicd.devopsbyganraj.cloud
       http:
@@ -21,28 +26,28 @@ spec:
                 port:
                   number: 3000
           - path: /prometheus(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: prometheus
                 port:
                   number: 9090
           - path: /grafana(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: grafana
                 port:
                   number: 3000
           - path: /sonarqube(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: sonarqube
                 port:
                   number: 9000
           - path: /zabbix(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: zabbix-server
