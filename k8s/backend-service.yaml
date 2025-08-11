@@ -8,7 +8,6 @@ spec:
     app: backend
   ports:
     - name: http
-      port: 3000        # Port that Ingress will call
+      port: 3000        # Port exposed inside cluster
       targetPort: 3000  # Port inside the container
   type: ClusterIP
-
