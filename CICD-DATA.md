@@ -183,7 +183,9 @@ curl -I http://<YOUR_EC2_PUBLIC_IP>/ -H "Host: cicd.devopsbyganraj.cloud"
 curl -I http://<EC2-IP>:<NODE_PORT>/api -H "Host: cicd.devopsbyganraj.cloud"
 ```
 ### You should see:
+```
 HTTP/1.1 200 OK
+```
 ---
 
 ## 🧪 6. Install Jenkins
@@ -198,7 +200,7 @@ sudo systemctl start jenkins
 ```
 ### Accessing Jenkins Portal 
 ```
-http://<EC2's_Public-Ip>:8080/login?from=%2F
+http://<EC2's_Public-Ip>:8080
 ```
 
 ### Get Initial Admin Password
