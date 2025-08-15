@@ -15,6 +15,9 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ganraj99215/portfolio-frontend:v1
+        image: ganraj99215/portfolio-frontend:latest
         ports:
         - containerPort: 80
+        resources:
+          requests: { cpu: "50m", memory: "64Mi" }
+          limits:   { cpu: "200m", memory: "128Mi" }
