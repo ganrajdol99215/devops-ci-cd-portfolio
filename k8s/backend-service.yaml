@@ -4,6 +4,10 @@ metadata:
   name: backend
   namespace: portfolio
 spec:
-  selector: { app: backend }
-  ports: [{ port: 5000, targetPort: 5000 }]
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
   type: ClusterIP

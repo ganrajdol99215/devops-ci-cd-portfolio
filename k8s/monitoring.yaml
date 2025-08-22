@@ -10,18 +10,19 @@ metadata:
   namespace: monitoring
 spec:
   replicas: 1
-  selector: { matchLabels: { app: prometheus } }
+  selector:
+    matchLabels:
+      app: prometheus
   template:
-    metadata: { labels: { app: prometheus } }
+    metadata:
+      labels:
+        app: prometheus
     spec:
       containers:
-      - name: prometheus
-        image: prom/prometheus:latest
-        ports: [{ containerPort: 9090 }]
-        args: ["--storage.tsdb.retention.time=1d"]
-        resources:
-          requests: { cpu: "100m", memory: "256Mi" }
-          limits:   { cpu: "300m", memory: "512Mi" }
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
 ---
 apiVersion: v1
 kind: Service
@@ -29,9 +30,13 @@ metadata:
   name: prometheus
   namespace: monitoring
 spec:
-  selector: { app: prometheus }
-  ports: [{ port: 9090, targetPort: 9090 }]
-  type: ClusterIP
+  selector:
+    app: prometheus
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -40,20 +45,19 @@ metadata:
   namespace: monitoring
 spec:
   replicas: 1
-  selector: { matchLabels: { app: grafana } }
+  selector:
+    matchLabels:
+      app: grafana
   template:
-    metadata: { labels: { app: grafana } }
+    metadata:
+      labels:
+        app: grafana
     spec:
       containers:
-      - name: grafana
-        image: grafana/grafana:latest
-        ports: [{ containerPort: 3000 }]
-        env:
-        - { name: GF_SECURITY_ADMIN_USER, value: "admin" }
-        - { name: GF_SECURITY_ADMIN_PASSWORD, value: "admin" }
-        resources:
-          requests: { cpu: "100m", memory: "128Mi" }
-          limits:   { cpu: "300m", memory: "256Mi" }
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -61,96 +65,10 @@ metadata:
   name: grafana
   namespace: monitoring
 spec:
-  selector: { app: grafana }
-  ports: [{ port: 3000, targetPort: 3000 }]
-  type: ClusterIP
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: zabbix-appliance
-  namespace: monitoring
-spec:
-  replicas: 1
-  selector: { matchLabels: { app: zabbix-appliance } }
-  template:
-    metadata: { labels: { app: zabbix-appliance } }
-    spec:
-      containers:
-      - name: zabbix-appliance
-        image: zabbix/zabbix-appliance:alpine-latest
-        ports: [{ containerPort: 80 }]
-        resources:
-          requests: { cpu: "100m", memory: "256Mi" }
-          limits:   { cpu: "400m", memory: "512Mi" }
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: zabbix
-  namespace: monitoring
-spec:
-  selector: { app: zabbix-appliance }
-  ports: [{ port: 80, targetPort: 80 }]
-  type: ClusterIP
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sonarqube
-  namespace: monitoring
-spec:
-  replicas: 1
-  selector: { matchLabels: { app: sonarqube } }
-  template:
-    metadata: { labels: { app: sonarqube } }
-    spec:
-      containers:
-      - name: sonarqube
-        image: sonarqube:latest
-        ports: [{ containerPort: 9000 }]
-        env:
-        - { name: SONAR_WEB_CONTEXT, value: "/" }
-        resources:
-          requests: { cpu: "200m", memory: "1Gi" }
-          limits:   { cpu: "1", memory: "2Gi" }
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sonarqube
-  namespace: monitoring
-spec:
-  selector: { app: sonarqube }
-  ports: [{ port: 9000, targetPort: 9000 }]
-  type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: cicd-monitoring
-  namespace: monitoring
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: cicd.devopsbyganraj.cloud
-    http:
-      paths:
-      - path: /prometheus(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service: { name: prometheus, port: { number: 9090 } }
-      - path: /grafana(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service: { name: grafana, port: { number: 3000 } }
-      - path: /zabbix(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service: { name: zabbix, port: { number: 80 } }
-      - path: /sonarqube(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service: { name: sonarqube, port: { number: 9000 } }
+  selector:
+    app: grafana
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: NodePort

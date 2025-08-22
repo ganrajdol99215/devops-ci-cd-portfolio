@@ -4,6 +4,10 @@ metadata:
   name: frontend
   namespace: portfolio
 spec:
-  selector: { app: frontend }
-  ports: [{ port: 80, targetPort: 80 }]
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   type: ClusterIP

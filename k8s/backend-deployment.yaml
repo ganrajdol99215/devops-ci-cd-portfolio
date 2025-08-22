@@ -4,7 +4,7 @@ metadata:
   name: backend
   namespace: portfolio
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: backend
@@ -14,12 +14,7 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: ganraj99215/portfolio-backend:latest
-        env:
-        - { name: PORT, value: "5000" }
-        - { name: HOST, value: "0.0.0.0" }
-        ports: [{ containerPort: 5000 }]
-        resources:
-          requests: { cpu: "50m", memory: "128Mi" }
-          limits:   { cpu: "300m", memory: "256Mi" }
+        - name: backend
+          image: ganrajdol/backend:latest
+          ports:
+            - containerPort: 8080

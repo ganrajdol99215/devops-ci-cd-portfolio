@@ -4,7 +4,7 @@ metadata:
   name: frontend
   namespace: portfolio
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: frontend
@@ -14,10 +14,7 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: ganraj99215/portfolio-frontend:latest
-        ports:
-        - containerPort: 80
-        resources:
-          requests: { cpu: "50m", memory: "64Mi" }
-          limits:   { cpu: "200m", memory: "128Mi" }
+        - name: frontend
+          image: ganrajdol/frontend:latest
+          ports:
+            - containerPort: 80
