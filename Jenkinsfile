@@ -3,8 +3,8 @@ pipeline {
 
   environment {
     REGISTRY = "docker.io"
-    DOCKERHUB_USER = credentials('dockerhub-username')
-    DOCKERHUB_PASS = credentials('dockerhub-password')
+    DOCKERHUB_USER = credentials('ganraj99215')
+    DOCKERHUB_PASS = credentials('9921569869')
     KUBECONFIG_CRED = credentials('kubeconfig-portfolio')
     SONAR_TOKEN = credentials('sonar-token')
     SONAR_HOST_URL = "https://cicd.devopsbyganraj.cloud/sonarqube"
