@@ -4,30 +4,9 @@ metadata:
   name: frontend
   namespace: cicd
 spec:
+  type: ClusterIP
   selector:
     app: frontend
   ports:
-    - port: 80
-      targetPort: 80
-  type: ClusterIP
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: frontend
-  namespace: cicd
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: frontend
-  template:
-    metadata:
-      labels:
-        app: frontend
-    spec:
-      containers:
-        - name: frontend
-          image: <your-dockerhub-username>/frontend:latest
-          ports:
-            - containerPort: 80
+  - port: 80
+    targetPort: 80
