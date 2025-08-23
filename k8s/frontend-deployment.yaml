@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: portfolio
+  namespace: cicd
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -14,7 +14,20 @@ spec:
         app: frontend
     spec:
       containers:
-        - name: frontend
-          image: ganrajdol/frontend:latest
-          ports:
-            - containerPort: 80
+      - name: frontend
+        image: ganraj99215/frontend:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: cicd
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+  - port: 80
+    targetPort: 80
