@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-pvc
+  namespace: cicd
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,6 +30,13 @@ spec:
         image: ganraj99215/backend:latest
         ports:
         - containerPort: 5000
+        volumeMounts:
+        - name: backend-storage
+          mountPath: /app   # make sure your server.js writes db.sqlite here
+      volumes:
+      - name: backend-storage
+        persistentVolumeClaim:
+          claimName: backend-pvc
 ---
 apiVersion: v1
 kind: Service
