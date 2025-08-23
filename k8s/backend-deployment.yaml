@@ -18,15 +18,16 @@ spec:
         image: ganraj99215/backend:latest
         ports:
         - containerPort: 5000
-        livenessProbe:
-          httpGet:
-            path: /reviews
-            port: 5000
-          initialDelaySeconds: 10
-          periodSeconds: 20
-        readinessProbe:
-          httpGet:
-            path: /reviews
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 10
+    livenessProbe:
+  httpGet:
+    path: /api/review
+    port: 5000
+  initialDelaySeconds: 10
+  periodSeconds: 20
+readinessProbe:
+  httpGet:
+    path: /api/review
+    port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
