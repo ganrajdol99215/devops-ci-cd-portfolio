@@ -1,13 +1,25 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: monitoring
+  name: sonarqube
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube
+  namespace: sonarqube
+spec:
+  ports:
+    - port: 9000
+      targetPort: 9000
+  selector:
+    app: sonarqube
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sonarqube
-  namespace: monitoring
+  namespace: sonarqube
 spec:
   replicas: 1
   selector:
@@ -23,20 +35,3 @@ spec:
           image: sonarqube:latest
           ports:
             - containerPort: 9000
-          env:
-            - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
-              value: "true"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sonarqube
-  namespace: monitoring
-spec:
-  selector:
-    app: sonarqube
-  ports:
-    - protocol: TCP
-      port: 9000
-      targetPort: 9000
-  type: ClusterIP
