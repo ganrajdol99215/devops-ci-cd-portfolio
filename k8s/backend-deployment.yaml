@@ -1,33 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
-  namespace: cicd
+  name: backend-blue
+  namespace: cicd-portfolio
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: backend
+      version: blue
   template:
     metadata:
       labels:
         app: backend
+        version: blue
     spec:
       containers:
       - name: backend
         image: ganraj99215/backend:latest
         ports:
-        - containerPort: 4000   # CHANGED from 3000 to 4000
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-  namespace: cicd
-spec:
-  type: ClusterIP
-  selector:
-    app: backend
-  ports:
-    - port: 4000
-      targetPort: 4000
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
