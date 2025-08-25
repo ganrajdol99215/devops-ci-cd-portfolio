@@ -25,13 +25,6 @@ spec:
             name: backend
             port:
               number: 4000
-      - path: /jenkins
-        pathType: Prefix
-        backend:
-          service:
-            name: jenkins
-            port:
-              number: 8080
       - path: /grafana
         pathType: Prefix
         backend:
