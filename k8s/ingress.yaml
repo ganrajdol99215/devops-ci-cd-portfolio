@@ -25,31 +25,4 @@ spec:
             name: backend
             port:
               number: 5000
-      - path: /jenkins
-        pathType: Prefix
-        backend:
-          service:
-            name: jenkins
-            port:
-              number: 8080
-      - path: /grafana
-        pathType: Prefix
-        backend:
-          service:
-            name: grafana
-            port:
-              number: 3000
-      - path: /prometheus
-        pathType: Prefix
-        backend:
-          service:
-            name: prometheus
-            port:
-              number: 9090
-      - path: /sonarqube
-        pathType: Prefix
-        backend:
-          service:
-            name: sonarqube
-            port:
-              number: 9000
+     
