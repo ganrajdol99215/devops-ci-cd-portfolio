@@ -94,7 +94,7 @@ docker --version
 ### Build & Push Commands
 ```bash
 cd backend
-docker build -t ganraj99215/portfolio-backend:v1 -f Dockerfile.backend .
+docker build -t ganraj99215/portfolio-backend:v1 -f Dockerfile .
 docker push ganraj99215/portfolio-backend:v1
 
 cd ../frontend
