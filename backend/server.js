@@ -10,7 +10,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Database path inside container
-const dbPath = path.resolve(__dirname, "db.sqlite");
+const dbPath = path.resolve("/app/data", "db.sqlite");
+
 
 // If file doesn't exist, create it
 if (!fs.existsSync(dbPath)) {
