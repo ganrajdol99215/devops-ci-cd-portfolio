@@ -132,13 +132,13 @@
   </div>
 
   <script>
-   function submitReview() {
-  fetch('http://54.198.81.140:5000/api/review', {
+function submitReview() {
+  fetch('/api/reviews', {   // relative path, will go through ingress
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: document.getElementById('name').value,
-      review: document.getElementById('review').value
+      message: document.getElementById('review').value   // match server.js field
     })
   })
   .then(res => res.json())
@@ -148,7 +148,6 @@
     document.getElementById('review').value = "";
     document.getElementById('name').value = "";
 
-    // Optional: Hide message after 3 seconds
     setTimeout(() => {
       document.getElementById('status').innerText = "";
     }, 3000);
@@ -156,9 +155,11 @@
   .catch(err => {
     document.getElementById('status').innerText = "❌ Submission failed.";
     document.getElementById('status').style.color = "red";
+    console.error(err);
   });
 }
-  </script>
+</script>
+
 
 </body>
 </html>
