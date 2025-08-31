@@ -5,7 +5,7 @@ metadata:
   namespace: cicd-portfolio
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/rewrite-target: /$2
+    traefik.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: traefik
   rules:
@@ -19,7 +19,7 @@ spec:
             name: frontend
             port:
               number: 80
-      - path: /api(/|$)(.*)
+      - path: /api/(.*)
         pathType: Prefix
         backend:
           service:
