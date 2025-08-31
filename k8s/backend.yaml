@@ -8,7 +8,7 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
-  hostPath:   # works for single-node (your EC2 + k3s)
+  hostPath:   # single-node EC2 + k3s
     path: "/var/lib/sqlite-data"
 
 ---
@@ -47,7 +47,7 @@ spec:
         - containerPort: 5000
         volumeMounts:
         - name: sqlite-storage
-          mountPath: /app   # mounts here so db.sqlite persists
+          mountPath: /app/data   # ✅ only database here
       volumes:
       - name: sqlite-storage
         persistentVolumeClaim:
