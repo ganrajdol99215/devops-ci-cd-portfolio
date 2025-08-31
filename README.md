@@ -55,15 +55,17 @@ docker login
 ### Backend
 ```bash
 cd backend
-docker build -t ganraj99215/backend:latest -f Dockerfile .
+docker build -t ganraj99215/backend:latest -f Dockerfile.backend .
 docker push ganraj99215/backend:latest
+
 ```
 
 ### Frontend
 ```bash
 cd frontend
-docker build -t ganraj99215/frontend:latest -f Dockerfile .
+docker build -t ganraj99215/frontend:latest -f Dockerfile.frontend .
 docker push ganraj99215/frontend:latest
+
 ```
 
 ---
