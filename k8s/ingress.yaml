@@ -4,8 +4,9 @@ metadata:
   name: portfolio-ingress
   namespace: cicd-portfolio
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
   - host: cicd.devopsbyganraj.cloud
     http:
@@ -17,10 +18,10 @@ spec:
             name: frontend
             port:
               number: 80
-      - path: /backend
+      - path: /api
         pathType: Prefix
         backend:
           service:
             name: backend
             port:
-              number: 5000  
+              number: 5000
