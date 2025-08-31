@@ -12,7 +12,6 @@ app.use(bodyParser.json());
 // Database path inside container
 const dbPath = path.resolve("/app/data", "db.sqlite");
 
-
 // If file doesn't exist, create it
 if (!fs.existsSync(dbPath)) {
   console.log("Database not found, creating new db.sqlite...");
@@ -38,12 +37,13 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
-// Routes
+// Root route
 app.get("/", (req, res) => {
   res.send("Backend running with SQLite DB!");
 });
 
-app.post("/reviews", (req, res) => {
+// ✅ Support both /reviews and /backend/reviews
+app.post(["/reviews", "/backend/reviews"], (req, res) => {
   const { name, message } = req.body;
   db.run(
     "INSERT INTO reviews (name, message) VALUES (?, ?)",
@@ -57,7 +57,7 @@ app.post("/reviews", (req, res) => {
   );
 });
 
-app.get("/reviews", (req, res) => {
+app.get(["/reviews", "/backend/reviews"], (req, res) => {
   db.all("SELECT * FROM reviews", [], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: err.message });
