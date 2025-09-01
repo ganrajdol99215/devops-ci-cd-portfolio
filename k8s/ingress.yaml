@@ -4,10 +4,9 @@ metadata:
   name: portfolio-ingress
   namespace: cicd-portfolio
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: cicd-portfolio-backend-rewrite@kubernetescrd
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
-  ingressClassName: traefik
+  ingressClassName: nginx
   rules:
   - host: cicd.devopsbyganraj.cloud
     http:
@@ -19,21 +18,10 @@ spec:
             name: frontend
             port:
               number: 80
-      - path: /backend
+      - path: /backend(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: backend
             port:
               number: 5000
----
-# Middleware for backend path rewrite
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: backend-rewrite
-  namespace: cicd-portfolio
-spec:
-  replacePathRegex:
-    regex: ^/backend/(.*)
-    replacement: /$1
