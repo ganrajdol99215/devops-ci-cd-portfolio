@@ -131,35 +131,33 @@
     <p id="status"></p>
   </div>
 
-  <script>
+<script>
 function submitReview() {
-  fetch('/api/reviews', {   // relative path, will go through ingress
+  fetch('https://cicd.devopsbyganraj.cloud/backend/reviews', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: document.getElementById('name').value,
-      message: document.getElementById('review').value   // match server.js field
+      message: document.getElementById('review').value
     })
   })
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) throw new Error("Request failed");
+    return res.json();
+  })
   .then(data => {
     document.getElementById('status').innerText = "✅ Thank you! Your review was submitted.";
     document.getElementById('status').style.color = "green";
     document.getElementById('review').value = "";
     document.getElementById('name').value = "";
-
-    setTimeout(() => {
-      document.getElementById('status').innerText = "";
-    }, 3000);
+    setTimeout(() => { document.getElementById('status').innerText = ""; }, 3000);
   })
   .catch(err => {
     document.getElementById('status').innerText = "❌ Submission failed.";
     document.getElementById('status').style.color = "red";
-    console.error(err);
   });
 }
 </script>
-
 
 </body>
 </html>
