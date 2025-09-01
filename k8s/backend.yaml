@@ -1,30 +1,3 @@
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: sqlite-pv
-  namespace: cicd-portfolio
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:   # single-node EC2 + k3s
-    path: "/var/lib/sqlite-data"
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sqlite-pvc
-  namespace: cicd-portfolio
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -41,27 +14,7 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: ganraj99215/backend:latest
-        ports:
-        - containerPort: 5000
-        volumeMounts:
-        - name: sqlite-storage
-          mountPath: /app/data   # ✅ only database here
-      volumes:
-      - name: sqlite-storage
-        persistentVolumeClaim:
-          claimName: sqlite-pvc
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-  namespace: cicd-portfolio
-spec:
-  selector:
-    app: backend
-  ports:
-  - port: 5000
-    targetPort: 5000
+        - name: backend
+          image: ganraj99215/backend:latest
+          ports:
+            - containerPort: 5000
