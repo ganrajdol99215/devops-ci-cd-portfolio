@@ -133,14 +133,14 @@
 
 <script>
 function submitReview() {
-  fetch('https://cicd.devopsbyganraj.cloud/backend/reviews', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: document.getElementById('name').value,
-      message: document.getElementById('review').value
-    })
+fetch("https://cicd.devopsbyganraj.cloud/reviews", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    name: document.getElementById("name").value,
+    message: document.getElementById("review").value
   })
+})
   .then(res => {
     if (!res.ok) throw new Error("Request failed");
     return res.json();
