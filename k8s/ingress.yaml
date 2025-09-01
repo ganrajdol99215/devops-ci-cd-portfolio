@@ -16,20 +16,20 @@ spec:
     - host: cicd.devopsbyganraj.cloud
       http:
         paths:
-         - path: /
-           pathType: Prefix
-           backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: frontend
                 port:
                   number: 80
-            - path: /backend
-              pathType: Prefix
-              backend:
-                service:
-                  name: backend
-                  port:
-                     number: 5000
+          - path: /backend
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 5000
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
