@@ -22,6 +22,24 @@ ssh -i your-key.pem ubuntu@<EC2-Public-IP>
 ```
 
 ---
+## 🌐 Cloudflare DNS Setup
+
+Add the following **A record** in your Cloudflare DNS settings:
+
+| Type | Name | Content (Value)        | TTL  | Proxy Status |
+|------|------|-------------------------|------|--------------|
+| A    | cicd | <Your-EC2-Public-IP>   | Auto | DNS only     |
+
+➡️ This makes your site accessible at:  
+`https://cicd.devopsbyganraj.cloud`
+
+(Optional) If you also want the **root domain** (`devopsbyganraj.cloud`) to point to EC2:
+
+| Type | Name | Content (Value)        | TTL  | Proxy Status |
+|------|------|-------------------------|------|--------------|
+| A    | @    | <Your-EC2-Public-IP>   | Auto | DNS only     |
+
+---
 
 ## 2. 🐳 Install Docker & Docker Compose
 ```bash
@@ -130,9 +148,9 @@ kubectl apply -f ingress.yaml -n cicd
 
 Check:
 ```bash
-kubectl get pods -n cicd-portfolio
-kubectl get svc -n cicd-portfolio
-kubectl get ingress -n cicd-portfolio
+kubectl get pods -n cicd
+kubectl get svc -n cicd
+kubectl get ingress -n cicd
 ```
 
 ---
@@ -209,15 +227,15 @@ pipeline {
         }
         stage('Deploy to K3s') {
             steps {
-                sh 'kubectl apply -f k8s/ -n cicd-portfolio'
+                sh 'kubectl apply -f k8s/ -n cicd'
             }
         }
     }
     post {
         failure {
             echo "Deployment failed. Rolling back..."
-            sh 'kubectl rollout undo deployment backend -n cicd-portfolio || true'
-            sh 'kubectl rollout undo deployment frontend -n cicd-portfolio || true'
+            sh 'kubectl rollout undo deployment backend -n cicd || true'
+            sh 'kubectl rollout undo deployment frontend -n cicd || true'
         }
     }
 }
@@ -359,7 +377,7 @@ spec:
 
 Reapply:
 ```bash
-kubectl apply -f ingress.yaml -n cicd-portfolio
+kubectl apply -f ingress.yaml -n cicd
 ```
 
 ---
@@ -367,7 +385,7 @@ kubectl apply -f ingress.yaml -n cicd-portfolio
 ## ✅ Final Outcome
 - Full portfolio-webpage (Frontend + Backend + SQLite DB).  
 - Dockerized & pushed to Docker Hub.  
-- Deployed on **K3s** with **Ingress + Persistent DB**.  
+- Deployed on **K3s** with **Ingress**.  
 - Jenkins automates build → deploy → rollback on failure.  
 - Monitoring via **Prometheus** → `https://cicd.devopsbyganraj.cloud/prometheus`  
 - Monitoring via **Grafana** → `https://cicd.devopsbyganraj.cloud/grafana` (login: `admin/admin`)  
