@@ -28,7 +28,7 @@ Add the following **A record** in your Cloudflare DNS settings:
 
 | Type | Name | Content (Value)        | TTL  | Proxy Status |
 |------|------|-------------------------|------|--------------|
-| A    | cicd | <Your-EC2-Public-IP>   | Auto | DNS only     |
+| A    | cicd | Your-EC2-Public-IP   | Auto | DNS only     |
 
 ➡️ This makes your site accessible at:  
 `https://cicd.devopsbyganraj.cloud`
@@ -37,7 +37,7 @@ Add the following **A record** in your Cloudflare DNS settings:
 
 | Type | Name | Content (Value)        | TTL  | Proxy Status |
 |------|------|-------------------------|------|--------------|
-| A    | @    | <Your-EC2-Public-IP>   | Auto | DNS only     |
+| A    | @    | Your-EC2-Public-IP   | Auto | DNS only     |
 
 ---
 
