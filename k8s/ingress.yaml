@@ -4,24 +4,24 @@ metadata:
   name: cicd-ingress
   namespace: cicd
   annotations:
-nginx.ingress.kubernetes.io/rewrite-target: /api/$2
+    nginx.ingress.kubernetes.io/rewrite-target: /api/$2
 spec:
   ingressClassName: nginx
   rules:
-  - host: cicd.devopsbyganraj.cloud
-    http:
-      paths:
-      - path: /api(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: backend
-            port:
-              number: 5000
-      - path: /()
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 80
+    - host: cicd.devopsbyganraj.cloud
+      http:
+        paths:
+          - path: /api(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 5000
+          - path: /()
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
