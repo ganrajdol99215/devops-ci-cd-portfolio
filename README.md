@@ -143,7 +143,8 @@ kubectl apply -f frontend.yaml -n cicd
 
 ### Ingress
 ```bash
-kubectl apply -f ingress.yaml -n cicd
+kubectl apply -f ingress-backend.yaml -n cicd
+kubectl apply -f ingress-frontend.yaml -n cicd
 ```
 
 Check:
