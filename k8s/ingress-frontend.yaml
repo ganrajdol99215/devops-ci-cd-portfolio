@@ -1,25 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: cicd-ingress
+  name: cicd-frontend-ingress
   namespace: cicd
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /api/$2
 spec:
   ingressClassName: nginx
   rules:
     - host: cicd.devopsbyganraj.cloud
       http:
         paths:
-          # Backend API route
-          - path: /api(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: backend
-                port:
-                  number: 5000
-          # Frontend route
           - path: /
             pathType: Prefix
             backend:
