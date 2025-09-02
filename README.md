@@ -13,7 +13,7 @@ This project demonstrates a **production-like CI/CD pipeline** with:
 ## 1. 🖥️ Launch EC2 Instance
 - Ubuntu 22.04 LTS, `t3.small` (or higher).  
 - Open ports in **Security Group**:  
-  - 22 (SSH), 80 (HTTP), 443 (HTTPS)  
+  - 22 (SSH), 80 (HTTP), 443 (HTTPS), 5000(Backend)
   - 8080 (Jenkins)
 
 Connect:
@@ -115,17 +115,17 @@ kubectl apply -f namespace.yaml
 
 ### Backend (with SQLite PVC)
 ```bash
-kubectl apply -f backend.yaml -n cicd-portfolio
+kubectl apply -f backend.yaml -n cicd
 ```
 
 ### Frontend
 ```bash
-kubectl apply -f frontend.yaml -n cicd-portfolio
+kubectl apply -f frontend.yaml -n cicd
 ```
 
 ### Ingress
 ```bash
-kubectl apply -f ingress.yaml -n cicd-portfolio
+kubectl apply -f ingress.yaml -n cicd
 ```
 
 Check:
