@@ -133,8 +133,8 @@
 
   <script>
    function submitReview() {
-  fetch('http://52.91.241.213:5000/api/review', {
-    method: 'POST',
+  fetch('/api/review', {
+   method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: document.getElementById('name').value,
