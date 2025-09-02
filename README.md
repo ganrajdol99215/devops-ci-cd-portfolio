@@ -3,7 +3,7 @@
 This project demonstrates a **production-like CI/CD pipeline** with:
 - **Docker & Docker Compose**
 - **K3s (lightweight Kubernetes)**
-- **SQLite DB with Persistent Storage**
+- **SQLite DB**
 - **Ingress + Custom Domain**
 - **Jenkins Pipeline (with rollback strategy)**
 - **Monitoring (Prometheus + Grafana via Ingress)**
