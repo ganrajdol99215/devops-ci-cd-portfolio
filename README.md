@@ -236,9 +236,9 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 - Jenkins Dashboard → Manage Jenkins → Credentials → Global
 - Add:
-  - ID: dockerhub-creds
-  - Username: ganraj99215
-  - Password: your DockerHub password
+  - ID: 'dockerhub-creds'
+  - Username: 'ganraj99215'
+  - Password: 'your DockerHub password'
        Password / Access Token: (your DockerHub password or PAT)
 ---
 
@@ -305,8 +305,8 @@ pipeline {
    ```arduino
    http://<your-server-ip>:8080/github-webhook/
    ```
-   3.Content type: application/json
-   4.Select → Just the push event
+   3.Content type: 'application/json'
+   4.Select → 'Just the push event'
    5.Save ✅
 ---
 ## 11. 📊 Monitoring (Prometheus + Grafana via Ingress)
