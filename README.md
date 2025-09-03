@@ -1,4 +1,4 @@
-# 🚀 DevOps CI/CD Portfolio Project
+#  DevOps CI/CD Portfolio Project
 
 This project demonstrates a **production-like CI/CD pipeline** with:
 - **Docker & Docker Compose**
@@ -30,7 +30,7 @@ Add the following **A record** in your Cloudflare DNS settings:
 |------|------|-------------------------|------|--------------|
 | A    | cicd | Your-EC2-Public-IP   | Auto | DNS only     |
 
-➡️ This makes your site accessible at:  
+ This makes your site accessible at:  
 `https://cicd.devopsbyganraj.cloud`
 
 (Optional) If you also want the **root domain** (`devopsbyganraj.cloud`) to point to EC2:
@@ -41,7 +41,7 @@ Add the following **A record** in your Cloudflare DNS settings:
 
 ---
 
-## 2. 🐳 Install Docker & Docker Compose
+## 2.  Install Docker & Docker Compose
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl git unzip
@@ -61,14 +61,14 @@ docker-compose --version
 
 ---
 
-## 3. 🔑 Docker Hub Login
+## 3.  Docker Hub Login
 ```bash
 docker login
 ```
 
 ---
 
-## 4. 📦 Build & Push Images
+## 4.  Build & Push Images
 
 ### Backend
 ```bash
@@ -124,7 +124,7 @@ kubectl get nodes
 
 ---
 
-## 7. 📂 Deploy App on K3s
+## 7.  Deploy App on K3s
 
 ### Namespace
 ```bash
@@ -156,11 +156,14 @@ kubectl get ingress -n cicd
 
 ---
 
-## 8. 🌐 Ingress Controller Clarification
+## 8.  Ingress Controller Clarification
 
-⚠️ **Important:** An Ingress resource requires an **Ingress Controller**.  
+**Important:** An Ingress resource requires an **Ingress Controller**.  
 
-- On **K3s**: Traefik Ingress Controller is pre-installed ✅ (no extra setup needed).  
+- On **K3s**: Traefik Ingress Controller is pre-installed (no extra setup needed).
+- **Note**: I faced 404 errors at first. Fixed it by correcting ingress path rules
+and keeping backend + frontend ingress separate for Traefik.
+
 - On **vanilla Kubernetes (kubeadm, EKS, GKE, AKS, etc.)**: you must install an Ingress Controller. Example (NGINX):  
   ```bash
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
@@ -173,15 +176,15 @@ kubectl get ingress -n cicd
 
 ---
 
-## 9. 🌐 Domain Setup
+## 9.  Domain Setup
 - Add A-record in your DNS → EC2 public IP.  
 - Example: `cicd.devopsbyganraj.cloud`.
 
 ---
 
-# ⚙️ Jenkins Setup (CI/CD with Rollback)
+#  Jenkins Setup (CI/CD with Rollback)
 
-## 1️⃣ Install Jenkins
+## Install Jenkins
 ```bash
 # Update packages
 sudo apt update -y
@@ -242,7 +245,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
        Password / Access Token: (your DockerHub password or PAT)
 ---
 
-## 🔄 Jenkins Pipeline (with Rollback)
+## Jenkins Pipeline (with Rollback)
 Create Jenkins Pipeline
 - In Jenkins UI → New Item → Pipeline
 - Use this Jenkinsfile:
@@ -307,9 +310,9 @@ pipeline {
    ```
    3.Content type: 'application/json'
    4.Select → 'Just the push event'
-   5.Save ✅
+   5.Save 
 ---
-## 11. 📊 Monitoring (Prometheus + Grafana via Ingress)
+## 11. Monitoring (Prometheus + Grafana via Ingress)
 
 ### Prometheus
 `prometheus.yaml`
@@ -393,7 +396,7 @@ kubectl apply -f grafana.yaml -n monitoring
 
 ---
 
-## 12. 🌐 Update Ingress for App + Monitoring
+## 12. Update Ingress for App + Monitoring
 
 Final `ingress.yaml` (single Ingress with all routes):
 
@@ -448,7 +451,7 @@ kubectl apply -f ingress.yaml -n cicd
 
 ---
 
-## ✅ Final Outcome
+## Final Outcome
 - Full portfolio-webpage (Frontend + Backend + SQLite DB).  
 - Dockerized & pushed to Docker Hub.  
 - Deployed on **K3s** with **Ingress**.  
