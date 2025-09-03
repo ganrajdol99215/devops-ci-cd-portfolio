@@ -3,18 +3,16 @@ kind: Ingress
 metadata:
   name: cicd-backend-ingress
   namespace: cicd
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /api/$2
 spec:
-  ingressClassName: nginx
   rules:
-    - host: cicd.devopsbyganraj.cloud
-      http:
-        paths:
-          - path: /api(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: backend
-                port:
-                  number: 5000
+  - host: cicd.devopsbyganraj.cloud
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 5000
+
