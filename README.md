@@ -113,7 +113,7 @@ docker-compose up -d
 
 ---
 
-## 6. ☸️ Install K3s
+## 6. Install K3s
 ```bash
 curl -sfL https://get.k3s.io | sh -
 mkdir -p ~/.kube
