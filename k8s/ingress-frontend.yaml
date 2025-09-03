@@ -4,15 +4,14 @@ metadata:
   name: cicd-frontend-ingress
   namespace: cicd
 spec:
-  ingressClassName: nginx
   rules:
-    - host: cicd.devopsbyganraj.cloud
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend
-                port:
-                  number: 80
+  - host: cicd.devopsbyganraj.cloud
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
