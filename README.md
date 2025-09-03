@@ -228,9 +228,10 @@ sudo mv kubectl /usr/local/bin/
 # Unlock Jenkins
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
+```
 - Open browser: http://<EC2_PUBLIC_IP>:8080
 - Paste the password, install Suggested Plugins, and create an admin user
-```
+
 ## Add DockerHub Credentials
 
 - Jenkins Dashboard → Manage Jenkins → Credentials → Global
