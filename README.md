@@ -318,7 +318,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
-  namespace: monitoring
+  namespace: cicd
 spec:
   replicas: 1
   selector:
@@ -339,7 +339,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prometheus
-  namespace: monitoring
+  namespace: cicd
 spec:
   ports:
   - port: 9090
@@ -355,7 +355,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
-  namespace: monitoring
+  namespace: cicd
 spec:
   replicas: 1
   selector:
@@ -376,7 +376,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grafana
-  namespace: monitoring
+  namespace: cicd
 spec:
   ports:
   - port: 3000
@@ -402,11 +402,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: cicd-ingress
-  namespace: cicd-portfolio
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: cicd
 spec:
-  ingressClassName: nginx   # For NGINX (on K3s you can leave it empty or use traefik)
+  # For K3s (Traefik is default) → remove or set "traefik"
+  ingressClassName: traefik
   rules:
   - host: cicd.devopsbyganraj.cloud
     http:
@@ -439,6 +438,7 @@ spec:
             name: grafana
             port:
               number: 3000
+
 ```
 
 Reapply:
