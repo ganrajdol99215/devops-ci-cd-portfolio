@@ -10,7 +10,7 @@ This project demonstrates a **production-like CI/CD pipeline** with:
 
 ---
 
-## 1. 🖥️ Launch EC2 Instance
+## 1. Launch EC2 Instance
 - Ubuntu 22.04 LTS, `t3.small` (or higher).  
 - Open ports in **Security Group**:  
   - 22 (SSH), 80 (HTTP), 443 (HTTPS), 5000(Backend)
@@ -22,18 +22,18 @@ ssh -i your-key.pem ubuntu@<EC2-Public-IP>
 ```
 
 ---
-## 🌐 Cloudflare DNS Setup
+## Cloudflare DNS Setup
 
-Add the following **A record** in your Cloudflare DNS settings:
+ **A record** in Cloudflare DNS settings:
 
 | Type | Name | Content (Value)        | TTL  | Proxy Status |
 |------|------|-------------------------|------|--------------|
 | A    | cicd | Your-EC2-Public-IP   | Auto | DNS only     |
 
- This makes your site accessible at:  
+site accessible at:  
 `https://cicd.devopsbyganraj.cloud`
 
-(Optional) If you also want the **root domain** (`devopsbyganraj.cloud`) to point to EC2:
+(Optional) want the **root domain** (`devopsbyganraj.cloud`) to point to EC2:
 
 | Type | Name | Content (Value)        | TTL  | Proxy Status |
 |------|------|-------------------------|------|--------------|
