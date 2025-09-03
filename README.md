@@ -179,27 +179,72 @@ kubectl get ingress -n cicd
 
 ---
 
-## 10. 🔧 Install Jenkins
+# ⚙️ Jenkins Setup (CI/CD with Rollback)
+
+## 1️⃣ Install Jenkins
 ```bash
-sudo apt update
-sudo apt install openjdk-11-jre -y
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]   https://pkg.jenkins.io/debian-stable binary/ |   sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
-sudo apt update
-sudo apt install jenkins -y
+# Update packages
+sudo apt update -y
+
+# Install Java (required for Jenkins)
+sudo apt install -y openjdk-17-jdk
+
+# Add Jenkins repo
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | \
+  sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+# Install Jenkins
+sudo apt update -y
+sudo apt install -y jenkins
+
+# Start Jenkins service
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
+
+```
+## Install Docker & Give Jenkins Permissions:
+```bash
+sudo apt install -y docker.io
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+
+```
+## Install kubectl
+```bash
+curl -LO "https://dl.k8s.io/release/$(curl -L -s \
+https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+
 ```
 
-Access Jenkins:
+## Access Jenkins:
 ```
-http://<EC2-IP>:8080
-```
+# Unlock Jenkins
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
+- Open browser: http://<EC2_PUBLIC_IP>:8080
+- Paste the password, install Suggested Plugins, and create an admin user
+```
+## Add DockerHub Credentials
+
+- Jenkins Dashboard → Manage Jenkins → Credentials → Global
+- Add:
+  - ID: dockerhub-creds
+  - Username: ganraj99215
+  - Password: your DockerHub password
+       Password / Access Token: (your DockerHub password or PAT)
 ---
 
 ## 🔄 Jenkins Pipeline (with Rollback)
-
+Create Jenkins Pipeline
+- In Jenkins UI → New Item → Pipeline
+- Use this Jenkinsfile:
 Create pipeline in Jenkins → use this script:
 
 ```groovy
@@ -211,19 +256,26 @@ pipeline {
     }
     stages {
         stage('Checkout') {
-            steps { git 'https://github.com/ganrajdol99215/devops-ci-cd-portfolio.git' }
+            steps {
+                git 'https://github.com/ganrajdol99215/devops-ci-cd-portfolio.git'
+            }
         }
         stage('Build & Push Backend') {
             steps {
-                sh 'docker login -u ganraj99215 -p 9921569869'
-                sh 'docker build -t ganraj99215/backend:latest backend/'
-                sh 'docker push ganraj99215/backend:latest'
+                sh """
+                echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                docker build -t $DOCKER_USER/backend:latest backend/
+                docker push $DOCKER_USER/backend:latest
+                """
             }
         }
         stage('Build & Push Frontend') {
             steps {
-                sh 'docker build -t ganraj99215/frontend:latest frontend/'
-                sh 'docker push ganraj99215/frontend:latest'
+                sh """
+                echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                docker build -t $DOCKER_USER/frontend:latest frontend/
+                docker push $DOCKER_USER/frontend:latest
+                """
             }
         }
         stage('Deploy to K3s') {
@@ -240,10 +292,22 @@ pipeline {
         }
     }
 }
+
 ```
 
 ---
+### Configure GitHub Webhook
 
+1. Go to your GitHub repo → Settings → Webhooks → Add Webhook
+2. Payload URL:
+
+   ```arduino
+   http://<your-server-ip>:8080/github-webhook/
+   ```
+   3.Content type: application/json
+   4.Select → Just the push event
+   5.Save ✅
+---
 ## 11. 📊 Monitoring (Prometheus + Grafana via Ingress)
 
 ### Prometheus
