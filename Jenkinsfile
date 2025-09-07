@@ -1,65 +1,49 @@
 pipeline {
-  agent any
-  environment {
-    REGISTRY = "ghcr.io/ganrajdol/portfolio-backend"
-    DOCKER_BUILDKIT = "1"
-    KUBECONFIG = "$WORKSPACE/kubeconfig"
-    APP_NAMESPACE = "cicd"
-  }
-  options {
-    timestamps()
-    buildDiscarder(logRotator(numToKeepStr: '20'))
-  }
-  stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
+    agent any
+    environment {
+        KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }
-    stage('Build Backend') {
-      steps {
-        dir('backend') {
-          sh 'npm ci'
-          sh 'npm run build'
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ganrajdol99215/devops-ci-cd-portfolio.git'
+            }
         }
-      }
-    }
-    stage('Test Backend') {
-      steps {
-        dir('backend') {
-          sh 'npm test || echo "No tests found"'
+
+        stage('Build & Push Backend') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        IMAGE_TAG=backend-${BUILD_NUMBER}
+                        docker build -t $DOCKER_USER/backend:$IMAGE_TAG -f backend/Dockerfile.backend backend/
+                        docker push $DOCKER_USER/backend:$IMAGE_TAG
+                        kubectl set image deployment/backend backend=$DOCKER_USER/backend:$IMAGE_TAG -n cicd
+                    '''
+                }
+            }
         }
-      }
+
+        stage('Build & Push Frontend') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        IMAGE_TAG=frontend-${BUILD_NUMBER}
+                        docker build -t $DOCKER_USER/frontend:$IMAGE_TAG -f frontend/Dockerfile.frontend frontend/
+                        docker push $DOCKER_USER/frontend:$IMAGE_TAG
+                        kubectl set image deployment/frontend frontend=$DOCKER_USER/frontend:$IMAGE_TAG -n cicd
+                    '''
+                }
+            }
+        }
     }
-    stage('Docker Build & Push') {
-      steps {
-        sh '''
-          docker login ghcr.io -u $GITHUB_USER -p $GITHUB_TOKEN
-          docker build -t $REGISTRY:$BUILD_NUMBER ./backend
-          docker tag $REGISTRY:$BUILD_NUMBER $REGISTRY:latest
-          docker push $REGISTRY:$BUILD_NUMBER
-          docker push $REGISTRY:latest
-        '''
-      }
+
+    post {
+        failure {
+            echo "Deployment failed. Rolling back..."
+            sh 'kubectl rollout undo deployment backend -n cicd || true'
+            sh 'kubectl rollout undo deployment frontend -n cicd || true'
+        }
     }
-    stage('Deploy to Kubernetes') {
-      steps {
-        sh '''
-          echo "$KUBECONFIG_CONTENT" > $WORKSPACE/kubeconfig
-          kubectl --kubeconfig=$WORKSPACE/kubeconfig -n cicd apply -f k8s/
-          kubectl --kubeconfig=$WORKSPACE/kubeconfig -n cicd rollout status deploy/backend --timeout=120s
-          kubectl --kubeconfig=$WORKSPACE/kubeconfig -n cicd rollout status deploy/frontend --timeout=120s
-        '''
-      }
-    }
-  }
-  post {
-    failure {
-      echo 'Build failed! Rolling back...'
-      sh '''
-        kubectl --kubeconfig=$WORKSPACE/kubeconfig -n cicd rollout undo deploy/backend || true
-        kubectl --kubeconfig=$WORKSPACE/kubeconfig -n cicd rollout undo deploy/frontend || true
-      '''
-    }
-  }
 }
