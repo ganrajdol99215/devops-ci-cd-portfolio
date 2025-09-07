@@ -1,6 +1,6 @@
 # DevOps CI/CD Portfolio Project
 
-This project is a demonstration of a **production-style CI/CD pipeline** built and deployed by me as part of my DevOps learning and portfolio.
+I built a complete CI/CD pipeline using Jenkins, Docker, Kubernetes (K3s), and GitHub Webhooks. Each code change automatically triggers build → push to Docker Hub → deploy to K3s with rollback support and Ingress-based routing.
 
 ---
 
